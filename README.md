@@ -61,8 +61,8 @@ langgraph_agents/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/langgraph_agents.git
-   cd langgraph_agents
+   git clone https://github.com/pranawmishra/agentic-workflow.git
+   cd agentic-workflow
    ```
 
 
@@ -109,7 +109,7 @@ Run the test suite:
 ```bash
 python -m uv run pytest
 ```
-![Test Coverage](image-1.png)
+![Test Coverage](src/images/image-1.png)
 
 ## Implementation Details
 
@@ -149,4 +149,4 @@ Conversations maintain context across multiple interactions using:
 
 ## UI Preview
 
-![This is preview of the application](image.png)
+![This is preview of the application](src/images/image.png)
