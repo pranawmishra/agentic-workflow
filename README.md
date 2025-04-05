@@ -88,7 +88,7 @@ Run the assistant from the command line:
 python -m uv run main.py 
 ```
 
-`Note: This automatically creates the virtual environment in your root folder and installs all the dependencies present in pyproject.toml file`
+> ⚠️ **Note:** This automatically creates the virtual environment in your root folder and installs all the dependencies present in the [`pyproject.toml`](./pyproject.toml) file.
 
 ### Streamlit UI
 
