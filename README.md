@@ -145,3 +145,7 @@ Conversations maintain context across multiple interactions using:
 - Multi-modal support for images and other media
 - Support for more document formats (beyond PDFs)
 - Advanced RAG techniques like hybrid search and re-ranking
+
+## UI Preview
+
+![This is preview of the application](image.png)
