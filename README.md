@@ -64,6 +64,7 @@ langgraph_agents/
    ```bash
    git clone https://github.com/pranawmishra/agentic-workflow.git
    cd agentic-workflow
+   pip install uv
    ```
 
 
