@@ -36,12 +36,13 @@ langgraph_agents/
 │   │   ├── weather.py      # Weather API tool
 │   │   └── document.py     # Document RAG tool
 │   ├── graphs/             # LangGraph flows
-│   ├── utils/              # Helper functions
 │   ├── config/             # Configuration settings
-│   └── ui/                 # Streamlit UI
+│   ├── ui/                 # Streamlit UI
+│   └── images/             # Contains all the images
 ├── tests/                  # Test cases
 ├── main.py                 # Command-line interface
 ├── streamlit_app.py        # Streamlit UI entrypoint
+├── pyproject.toml          # Contains project dependencies
 ├── .env                    # Environment variables (API keys)
 └── README.md               # Project documentation
 ```
