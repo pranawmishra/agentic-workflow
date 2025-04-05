@@ -109,6 +109,7 @@ Run the test suite:
 ```bash
 python -m uv run pytest
 ```
+![Test Coverage](image-1.png)
 
 ## Implementation Details
 
