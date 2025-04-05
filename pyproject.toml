@@ -1,5 +1,5 @@
 [project]
-name = "langgraph-agents"
+name = "agentic-workflow"
 version = "0.1.0"
 description = "AI Agent Pipeline with LangChain and LangGraph"
 readme = "README.md"
