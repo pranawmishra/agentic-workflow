@@ -14,6 +14,7 @@ This project demonstrates an agentic pipeline using LangChain, LangGraph, and La
 - ✅ Memory persistence for conversations
 - ✅ Streaming responses
 - ✅ LangSmith tracing for observability
+- 🔄 Langsmith Evaluation for debugging LLM responses (coming soon).
 
 ## Features
 
@@ -57,8 +58,8 @@ langgraph_agents/
 - OpenWeatherMap API key
 - Anthropic API key or other LLM provider
 - Qdrant account (for vector database)
-- VoyageAI API key (for embedding generation)
-- LangSmith API key (for tracing)
+- VoyageAI API key or CohereeAI API key (for embedding generation)
+- LangSmith API key (for tracing and evaluation)
 
 ### Installation
 
