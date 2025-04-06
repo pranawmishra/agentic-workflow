@@ -176,3 +176,11 @@ All LLM calls, chain executions, and tool invocations are automatically traced w
 ## UI Preview
 
 ![This is preview of the application](src/images/image.png)
+
+## Langsmith Tracing
+
+![No Tool Call](src/images/no_tool.png)
+
+![Weather tool call](src/images/weather_tool.png)
+
+![Retriever tool call](src/images/retriever_tool.png)
