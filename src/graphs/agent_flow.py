@@ -1,5 +1,5 @@
 from typing import Annotated, List, Dict, Any, Optional
-
+import os
 from typing_extensions import TypedDict
 from langchain_core.messages import SystemMessage
 from langgraph.prebuilt import ToolNode, tools_condition
@@ -12,6 +12,8 @@ from langchain_anthropic import ChatAnthropic
 
 from src.tools import tools as available_tools
 
+os.environ["LANGSMITH_TRACING"]="true"
+os.environ["LANGSMITH_API_KEY"]="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"
 
 class WeatherDocumentAgent:
     """

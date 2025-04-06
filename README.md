@@ -13,7 +13,7 @@ This project demonstrates an agentic pipeline using LangChain, LangGraph, and La
 - ✅ PDF document upload and querying
 - ✅ Memory persistence for conversations
 - ✅ Streaming responses
-- 🔄 LangSmith evaluation (Coming soon)
+- ✅ LangSmith tracing for observability
 
 ## Features
 
@@ -26,6 +26,7 @@ This project demonstrates an agentic pipeline using LangChain, LangGraph, and La
 - **Streamlit UI** for interacting with the agent, uploading PDFs, and managing document collections
 - **Memory Persistence** for maintaining conversation context across sessions
 - **Streaming Responses** for better user experience
+- **LangSmith Tracing** for monitoring and debugging LLM calls
 
 ## Project Structure
 
@@ -57,6 +58,7 @@ langgraph_agents/
 - Anthropic API key or other LLM provider
 - Qdrant account (for vector database)
 - VoyageAI API key (for embedding generation)
+- LangSmith API key (for tracing)
 
 ### Installation
 
@@ -75,8 +77,21 @@ langgraph_agents/
    VOYAGEAI_API_KEY=your_voyageai_api_key or COHERE_API_KEY=your_cohere_api_key
    QDRANT_URL=your_qdrant_url
    QDRANT_API_KEY=your_qdrant_api_key
+   # LangSmith tracing configuration
+   LANGSMITH_TRACING=true
+   LANGSMITH_API_KEY=your_langsmith_api_key
    # Add other API keys as needed
    ```
+
+### Enabling LangSmith Tracing
+
+LangSmith tracing is automatically enabled when the environment variables are set in your `.env` file. This allows you to:
+- Monitor all LLM calls and chain executions
+- Debug complex workflows
+- Analyze token usage and costs
+- Optimize your agent's performance
+
+No code changes are required - just add the environment variables and tracing will be active for all LangChain components.
 
 ## Usage
 
@@ -142,9 +157,17 @@ Conversations maintain context across multiple interactions using:
 - Unique conversation IDs for each session
 - Persistent Qdrant collections for document storage
 
+### LangSmith Tracing
+
+All LLM calls, chain executions, and tool invocations are automatically traced when LangSmith environment variables are properly configured. This provides:
+- Detailed logs of each step in the agent's workflow
+- Input/output visibility for debugging
+- Performance metrics for optimization
+- Token usage tracking for cost analysis
+
 ## Future Enhancements
 
-- Enhanced evaluation using LangSmith
+- Advanced evaluation using LangSmith
 - Multi-modal support for images and other media
 - Support for more document formats (beyond PDFs)
 - Advanced RAG techniques like hybrid search and re-ranking
