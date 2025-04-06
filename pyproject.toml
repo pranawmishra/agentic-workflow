@@ -19,6 +19,7 @@ dependencies = [
     "pypdf>=5.4.0",
     "langchain-cohere>=0.4.3",
     "pytest-cov>=6.1.0",
+    "langsmith>=0.3.24",
 ]
 
 [project.optional-dependencies]
