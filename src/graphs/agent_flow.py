@@ -7,13 +7,18 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langgraph.graph import MessagesState, StateGraph
 from langgraph.checkpoint.memory import MemorySaver
-
+from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 
 from src.tools import tools as available_tools
 
-os.environ["LANGSMITH_TRACING"]="true"
-os.environ["LANGSMITH_API_KEY"]="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"
+load_dotenv()
+# Load environment variables from .env file
+langsmith_api_key = os.getenv("LANGSMITH_API_KEY")
+langsmith_tracing = os.getenv("LANGSMITH_TRACING")
+# Set environment variables for LangSmith tracing and API key
+os.environ["LANGSMITH_TRACING"]= langsmith_tracing
+os.environ["LANGSMITH_API_KEY"]= langsmith_api_key
 
 class WeatherDocumentAgent:
     """
