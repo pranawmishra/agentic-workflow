@@ -1,8 +1,9 @@
 from src.tools.weather import weather_tool
+from src.tools.search_tool import tavily_search as search_tool
 try:
     from src.tools.document import document_query, list_collections, create_document_collection
     # Successfully imported document tools
-    tools = [weather_tool, document_query, list_collections, create_document_collection]
+    tools = [weather_tool, document_query, list_collections, create_document_collection, search_tool]
 except (ImportError, ValueError) as e:
     # Document tools not available (e.g., missing Qdrant or VoyageAI credentials)
     print(f"Document tools not available: {str(e)}")
