@@ -1,12 +1,5 @@
-import os
 from langchain_tavily import TavilySearch
 from langchain_core.tools import tool
-from dotenv import load_dotenv
-# Load environment variables
-load_dotenv()
-# Get Tavily API key from environment variables
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
-os.environ["TAVILY_API_KEY"] = TAVILY_API_KEY
 
 @tool
 def tavily_search(query: str) -> dict:
@@ -22,6 +15,7 @@ def tavily_search(query: str) -> dict:
     print("Using tool tavily_search")
     # return tavily_tool.run(query)
     tavily_tool = TavilySearch(
+        # api_key=settings.tavily_api_key,
         max_results=10,
         topic="general",
         include_answer=True,
@@ -36,7 +30,6 @@ def tavily_search(query: str) -> dict:
     # msg = tavily_tool.invoke({"query": query})
     # return msg
     msg = tavily_tool.run(query)
-    # print(len(msg["results"]), "results found")
     contents = [result["content"] for result in msg["results"]]
     return contents
 
