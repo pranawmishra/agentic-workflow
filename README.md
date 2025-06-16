@@ -32,21 +32,53 @@ This project demonstrates an agentic pipeline using LangChain, LangGraph, and La
 ## Project Structure
 
 ```
-langgraph_agents/
+agentic-workflow/
 ├── src/
-│   ├── tools/              # API tools (weather, document handling)
-│   │   ├── weather.py      # Weather API tool
-│   │   └── document.py     # Document RAG tool
-│   ├── graphs/             # LangGraph flows
-│   ├── config/             # Configuration settings
-│   ├── ui/                 # Streamlit UI
-│   └── images/             # Contains all the images
-├── tests/                  # Test cases
-├── main.py                 # Command-line interface
-├── streamlit_app.py        # Streamlit UI entrypoint
-├── pyproject.toml          # Contains project dependencies
-├── .env                    # Environment variables (API keys)
-└── README.md               # Project documentation
+│   ├── tools/                           # API tools and utilities
+│   │   ├── __init__.py
+│   │   ├── weather.py                   # Weather API tool
+│   │   ├── document.py                  # Document RAG tool
+│   │   └── search_tool.py               # Search functionality
+│   ├── graphs/                          # LangGraph flows and agents
+│   │   ├── __init__.py
+│   │   ├── agent_flow.py                # Main agent flow implementation
+│   │   ├── agent_flow_v2.py             # Updated agent flow version
+│   │   └── nodes/                       # Individual agent nodes
+│   │       ├── __init__.py
+│   │       ├── supervisor.py            # Supervisor agent node
+│   │       ├── researcher.py            # Research agent node
+│   │       ├── coder.py                 # Code generation agent node
+│   │       ├── enhancer.py              # Enhancement agent node
+│   │       ├── validator.py             # Validation agent node
+│   │       └── final_output_provider.py # Final output processing
+│   ├── config/                          # Configuration settings
+│   │   └── settings.py                  # Application settings
+│   ├── ui/                              # Streamlit UI components
+│   │   └── streamlit_app.py             # Main Streamlit application
+│   ├── utils/                           # Utility functions
+│   │   └── utils.py                     # Helper utilities
+│   ├── images/                          # Project images and diagrams
+│   └── used_documents/                  # Document storage directory
+├── tests/                               # Test cases
+│   ├── __init__.py
+│   ├── conftest.py                      # Test configuration
+│   ├── test_weather_tool.py             # Weather tool tests
+│   └── test_document_tool.py            # Document tool tests
+├── data/                                # Data directory (empty)
+├── main.py                              # Command-line interface
+├── main_v2.py                           # Updated CLI interface
+├── streamlit_app.py                     # Streamlit UI entrypoint
+├── 2_supervisor_multiagent_workflow.ipynb # Jupyter notebook demo
+├── pyproject.toml                       # Project dependencies and config
+├── uv.lock                              # Dependency lock file
+├── Dockerfile                           # Docker configuration
+├── docker-compose.yml                   # Docker Compose setup
+├── README-docker.md                     # Docker documentation
+├── .dockerignore                        # Docker ignore file
+├── .gitignore                           # Git ignore file
+├── .python-version                      # Python version specification
+├── LICENSE                              # Project license
+└── README.md                            # Project documentation
 ```
 
 ## Setup Instructions
@@ -63,26 +95,76 @@ langgraph_agents/
 
 ### Installation
 
+#### Option 1: Using uv (Recommended)
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/pranawmishra/agentic-workflow.git
    cd agentic-workflow
-   pip install uv
    ```
 
+2. Install dependencies using uv:
+   ```bash
+   uv sync
+   ```
+   > ⚠️ **Note:** This automatically creates the virtual environment and installs all dependencies from [`pyproject.toml`](./pyproject.toml).
 
-2. Create a `.env` file with your API keys:
+#### Option 2: Using Docker
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/pranawmishra/agentic-workflow.git
+   cd agentic-workflow
    ```
-   OPENWEATHER_API_KEY=your_openweather_api_key
-   ANTHROPIC_API_KEY=your_anthropic_api_key
-   VOYAGEAI_API_KEY=your_voyageai_api_key or COHERE_API_KEY=your_cohere_api_key
-   QDRANT_URL=your_qdrant_url
-   QDRANT_API_KEY=your_qdrant_api_key
-   # LangSmith tracing configuration
-   LANGSMITH_TRACING=true
-   LANGSMITH_API_KEY=your_langsmith_api_key
-   # Add other API keys as needed
+
+2. Create your `.env` file (see configuration section below)
+
+3. Build and run with Docker Compose:
+   ```bash
+   docker-compose up -d
    ```
+
+4. Access the application at: http://localhost:8501
+
+For detailed Docker instructions, see [README-docker.md](./README-docker.md).
+
+### Configuration
+
+Create a `.env` file in the project root with your API keys:
+
+```env
+# Required API Keys
+OPENWEATHER_API_KEY=your_openweather_api_key
+ANTHROPIC_API_KEY=your_anthropic_api_key
+
+# Embedding Provider (choose one)
+VOYAGEAI_API_KEY=your_voyageai_api_key
+# OR
+COHERE_API_KEY=your_cohere_api_key
+
+# Vector Database
+QDRANT_URL=your_qdrant_url
+QDRANT_API_KEY=your_qdrant_api_key
+
+# LangSmith tracing (optional)
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=your_langsmith_api_key
+
+# Search Tool (optional)
+TAVILY_API_KEY=your_tavily_api_key
+```
+
+### Verify Installation
+
+Test your installation by running:
+
+```bash
+# Using uv
+python -m uv run python -c "import src.tools.weather; print('Installation successful!')"
+
+# Run tests
+python -m uv run pytest
+```
 
 ### Enabling LangSmith Tracing
 
@@ -103,8 +185,6 @@ Run the assistant from the command line:
 ```bash
 python -m uv run main.py 
 ```
-
-> ⚠️ **Note:** This automatically creates the virtual environment in your root folder and installs all the dependencies present in the [`pyproject.toml`](./pyproject.toml) file.
 
 ### Streamlit UI
 
@@ -188,3 +268,7 @@ All LLM calls, chain executions, and tool invocations are automatically traced w
 ## Working URL
 
 Please [click here](https://agentic-workflow-h2bpzkxwmxfenxcn2ivdp3.streamlit.app/) for a working demo of the project
+
+## Multi-Agent Architecture
+
+![Multi-Agent Architecture](src/images/graph.png)

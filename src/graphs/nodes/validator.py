@@ -36,7 +36,7 @@ class ValidatorNode:
     def __init__(self, llm: ChatAnthropic):
         self.llm = llm
 
-    def __call__(self, state: MessagesState) -> Command[Literal["supervisor", "__end__"]]:
+    def __call__(self, state: MessagesState) -> Command[Literal["supervisor", "final_output_provider"]]:
 
         user_question = state["messages"][0].content
         agent_answer = state["messages"][-1].content
@@ -52,9 +52,9 @@ class ValidatorNode:
         goto = response.next
         reason = response.reason
 
-        if goto == "FINISH" or goto == END:
-            goto = END  
-            print(" --- Transitioning to END ---")  
+        if goto == "FINISH":
+            goto = "final_output_provider"
+            print(f"--- Workflow Transition: Validator → Final Output Provider ---")
         else:
             print(f"--- Workflow Transition: Validator → Supervisor ---")
     
