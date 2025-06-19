@@ -28,6 +28,6 @@ class AgentFlowV2:
         graph.add_node("general_answer_provider", GeneralAnswerProviderNode(self.llm))
 
         graph.add_edge(START, "supervisor")  
-        app = graph.compile()
+        app = graph.compile(checkpointer=self.memory)
 
         return app
