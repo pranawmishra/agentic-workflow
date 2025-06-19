@@ -50,6 +50,7 @@ agentic-workflow/
 │   │       ├── coder.py                 # Code generation agent node
 │   │       ├── enhancer.py              # Enhancement agent node
 │   │       ├── validator.py             # Validation agent node
+│   │       ├── general_answer_provider.py # General answer provider node
 │   │       └── final_output_provider.py # Final output processing
 │   ├── config/                          # Configuration settings
 │   │   └── settings.py                  # Application settings

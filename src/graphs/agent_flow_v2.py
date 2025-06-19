@@ -3,7 +3,7 @@ from langchain_cohere import ChatCohere
 from langchain_anthropic import ChatAnthropic
 from langgraph.checkpoint.memory import MemorySaver
 import os
-from src.graphs.nodes import SupervisorNode, EnhancerNode, ResearcherNode, CodeNode, ValidatorNode, FinalOutputProviderNode
+from src.graphs.nodes import SupervisorNode, EnhancerNode, ResearcherNode, CodeNode, ValidatorNode, FinalOutputProviderNode, GeneralAnswerProviderNode
 
 class AgentFlowV2:
     def __init__(self):
@@ -25,6 +25,7 @@ class AgentFlowV2:
         graph.add_node("coder", CodeNode(self.llm)) 
         graph.add_node("validator", ValidatorNode(self.llm))  
         graph.add_node("final_output_provider", FinalOutputProviderNode(self.llm))
+        graph.add_node("general_answer_provider", GeneralAnswerProviderNode(self.llm))
 
         graph.add_edge(START, "supervisor")  
         app = graph.compile()

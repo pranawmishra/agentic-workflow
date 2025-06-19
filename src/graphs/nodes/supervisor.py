@@ -4,24 +4,24 @@ from langgraph.graph import MessagesState
 from langgraph.types import Command
 from langchain_core.messages import HumanMessage
 from langchain_cohere import ChatCohere
-from langchain_anthropic import ChatAnthropic
 
 class Supervisor(BaseModel):
-    next: Literal["enhancer", "researcher", "coder"] = Field(
+    next: Literal["enhancer", "researcher", "coder", "general_answer_provider"] = Field(
         description="Determines which specialist to activate next in the workflow sequence: "
                     "'enhancer' when user input requires clarification, expansion, or refinement, "
                     "'researcher' when additional facts, context, or data collection is necessary, "
-                    "'coder' when implementation, computation, or technical problem-solving is required."
+                    "'coder' when implementation, computation, or technical problem-solving is required, "
+                    "'general_answer_provider' when the task is not clear or the user's request is not possible to complete or the user query does not require any of the other agents."
     )
     reason: str = Field(
         description="Detailed justification for the routing decision, explaining the rationale behind selecting the particular specialist and how this advances the task toward completion."
     )
 
 class SupervisorNode:
-    def __init__(self, llm: ChatAnthropic):
+    def __init__(self, llm: ChatCohere):
         self.llm = llm
 
-    def __call__(self, state: MessagesState) -> Command[Literal["enhancer", "researcher", "coder"]]:
+    def __call__(self, state: MessagesState) -> Command[Literal["enhancer", "researcher", "coder", "general_answer_provider"]]:
 
         system_prompt = ('''
                     
@@ -31,6 +31,7 @@ class SupervisorNode:
             1. **Prompt Enhancer**: Always consider this agent first. They clarify ambiguous requests, improve poorly defined queries, and ensure the task is well-structured before deeper processing begins.
             2. **Researcher**: Specializes in information gathering, fact-finding, and collecting relevant data needed to address the user's request.
             3. **Coder**: Focuses on technical implementation, calculations, data analysis, algorithm development, and coding solutions.
+            4. **General Answer Provider**: Focuses on providing a general answer to the user's query when the task is not clear or the user's request is not possible to complete or the user query does not require any of the other agents.
 
             **Your Responsibilities**:
             1. Analyze each user request and agent response for completeness, accuracy, and relevance.

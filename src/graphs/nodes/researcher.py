@@ -3,7 +3,6 @@ from langgraph.graph import MessagesState
 from langgraph.types import Command
 from langchain_core.messages import HumanMessage
 from langchain_cohere import ChatCohere
-from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -16,7 +15,7 @@ import os
 # tavily_search = TavilySearchResults(max_results=2)
 
 class ResearcherNode:
-    def __init__(self, llm: ChatAnthropic):
+    def __init__(self, llm: ChatCohere):
         self.llm = llm
 
     def __call__(self, state: MessagesState) -> Command[Literal["validator"]]:

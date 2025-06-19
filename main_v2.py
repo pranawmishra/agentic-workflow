@@ -19,7 +19,7 @@ def main(app, user_input: str):
             if value is None:
                 continue
             last_message = value.get("messages", [])[-1] if "messages" in value else None
-            if last_message:
+            if last_message and last_message.name == "final_output_provider" or last_message.name == "general_answer_provider":
                 pprint.pprint(f"Output from node '{key}':")
                 pprint.pprint(last_message, indent=2, width=80, depth=None)
                 print()

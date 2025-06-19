@@ -3,7 +3,6 @@ from langgraph.graph import END, MessagesState
 from langgraph.types import Command
 from langchain_core.messages import HumanMessage
 from langchain_cohere import ChatCohere
-from langchain_anthropic import ChatAnthropic
 from pydantic import BaseModel, Field
 
 # System prompt providing clear instructions to the validator agent
@@ -22,7 +21,7 @@ class FinalOutputProvider(BaseModel):
     )
 
 class FinalOutputProviderNode:
-    def __init__(self, llm: ChatAnthropic):
+    def __init__(self, llm: ChatCohere):
         self.llm = llm
 
     def __call__(self, state: MessagesState) -> Command[Literal["__end__"]]:

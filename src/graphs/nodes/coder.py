@@ -3,13 +3,12 @@ from langgraph.graph import MessagesState
 from langgraph.types import Command
 from langchain_core.messages import HumanMessage
 from langchain_cohere import ChatCohere
-from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
 from langchain_experimental.tools import PythonREPLTool
 
 class CodeNode:
-    def __init__(self, llm: ChatAnthropic):
+    def __init__(self, llm: ChatCohere):
         self.llm = llm
         self.python_repl_tool = PythonREPLTool()
 
