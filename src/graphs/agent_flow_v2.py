@@ -3,6 +3,7 @@ from langchain_cohere import ChatCohere
 from langchain_anthropic import ChatAnthropic
 from langgraph.checkpoint.memory import MemorySaver
 import os
+from langchain_google_genai import ChatGoogleGenerativeAI
 from src.graphs.nodes import SupervisorNode, EnhancerNode, ResearcherNode, CodeNode, ValidatorNode, FinalOutputProviderNode, GeneralAnswerProviderNode
 
 class AgentFlowV2:
@@ -10,10 +11,22 @@ class AgentFlowV2:
         self.llm = ChatCohere(
             model="command-a-03-2025",
             temperature=0.0,
-            cohere_api_key=os.getenv("COHERE_API_KEY")
+            # cohere_api_key=os.getenv("COHERE_API_KEY")
         )
-        self.memory = MemorySaver()
+
+        # self.llm = ChatGoogleGenerativeAI(
+        #     model="gemini-2.5-flash",
+        #     temperature=0,
+        #     max_tokens=None,
+        #     timeout=None,
+        #     max_retries=2,
+        #     # thinking_config={"thinking_budget": 1024},
+        #     thinking_budget=1024,
+        #     api_key=os.getenv("GEMINI_API_KEY")
+        # )
         # self.llm = ChatAnthropic(model="claude-3-5-haiku-latest")
+
+        self.memory = MemorySaver()
 
     def __call__(self):
 

@@ -17,3 +17,5 @@ src/used_documents/
 
 # Thread ID file
 .thread_id
+
+.chainlit

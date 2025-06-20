@@ -24,6 +24,8 @@ dependencies = [
     "langchain-tavily>=0.2.1",
     "langchain-experimental>=0.3.4",
     "ipython>=8.37.0",
+    "langchain-google-genai>=2.1.5",
+    "chainlit>=2.5.5",
 ]
 
 [project.optional-dependencies]
