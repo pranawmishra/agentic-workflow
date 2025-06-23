@@ -6,11 +6,11 @@ from langchain_core.messages import HumanMessage
 from langchain_cohere import ChatCohere
 
 class Supervisor(BaseModel):
-    next: Literal["enhancer", "researcher", "coder", "general_answer_provider"] = Field(
+    next: Literal["enhancer", "researcher", "analyst", "general_answer_provider"] = Field(
         description="Determines which specialist to activate next in the workflow sequence: "
                     "'enhancer' when user input requires clarification, expansion, or refinement, "
                     "'researcher' when additional facts, context, or data collection is necessary, "
-                    "'coder' when implementation, computation, or technical problem-solving is required, "
+                    "'analyst' when implementation, computation, or technical problem-solving is required, "
                     "'general_answer_provider' when the task is not clear or the user's request is not possible to complete or the user query does not require any of the other agents."
     )
     reason: str = Field(
@@ -18,19 +18,22 @@ class Supervisor(BaseModel):
     )
 
 class SupervisorNode:
-    def __init__(self, llm: ChatCohere):
+    def __init__(self, llm):
         self.llm = llm
 
-    def __call__(self, state: MessagesState) -> Command[Literal["enhancer", "researcher", "coder", "general_answer_provider"]]:
+    def __call__(self, state: MessagesState) -> Command[Literal["enhancer", "researcher", "analyst", "general_answer_provider"]]:
 
+        user_messages = [msg.content for msg in state["messages"] if msg.type == "human"]
+        latest_user_message = user_messages[-1] if user_messages else ""
+        
         system_prompt = ('''
                     
-            You are a workflow supervisor managing a team of three specialized agents: Prompt Enhancer, Researcher, and Coder. Your role is to orchestrate the workflow by selecting the most appropriate next agent based on the current state and needs of the task. Provide a clear, concise rationale for each decision to ensure transparency in your decision-making process.
+            You are a workflow supervisor managing a team of three specialized agents: Prompt Enhancer, Researcher, and Analyst. Your role is to orchestrate the workflow by selecting the most appropriate next agent based on the current state and needs of the task. Provide a clear, concise rationale for each decision to ensure transparency in your decision-making process.
 
             **Team Members**:
             1. **Prompt Enhancer**: Use when the user's request has sufficient context but needs refinement or restructuring for better clarity. The core intent should be identifiable.
             2. **Researcher**: Specializes in information gathering, fact-finding, and collecting relevant data needed to address the user's request.
-            3. **Coder**: Focuses on technical implementation, calculations, data analysis, algorithm development, and coding solutions when requirements are clear and specific.
+            3. **Analyst**: Focuses on technical implementation, calculations, data analysis, algorithm development, and coding solutions when requirements are clear and specific.
             4. **General Answer Provider**: Use when the user's request is too vague, incomplete, or impossible to complete. This agent can ask for clarification or provide general guidance.
 
             **Your Responsibilities**:
@@ -56,6 +59,9 @@ class SupervisorNode:
         
         return Command(
             update={
+                "supervisor_output": state.get("supervisor_output", []) + [goto],
+                "supervisor_reason": state.get("supervisor_reason", []) + [reason],
+                "user_query": state.get("user_query", []) + [latest_user_message],
                 "messages": [
                     HumanMessage(content=reason, name="supervisor")
                 ]

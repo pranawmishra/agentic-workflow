@@ -25,6 +25,7 @@ class ResearcherNode:
             Takes the current task state, performs relevant research,
             and returns findings for validation.
         """
+        tools = []
     
         research_agent = create_react_agent(
             self.llm,  
@@ -40,10 +41,16 @@ class ResearcherNode:
 
         result = research_agent.invoke(state)
 
+        for message in result["messages"]:
+            if hasattr(message, "tool_calls") and message.tool_calls:
+                tools.extend([tool["name"] for tool in message.tool_calls])
+
         print(f"--- Workflow Transition: Researcher → Validator ---")
 
         return Command(
             update={
+                "tool_calls_made": state.get("tool_calls_made", []) + tools,
+                "researcher_output": state.get("researcher_output", []) + [result["messages"][-1].content],
                 "messages": [ 
                     HumanMessage(
                         content=result["messages"][-1].content,  

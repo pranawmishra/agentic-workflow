@@ -32,7 +32,7 @@ class Validator(BaseModel):
     )
 
 class ValidatorNode:
-    def __init__(self, llm: ChatCohere):
+    def __init__(self, llm):
         self.llm = llm
 
     def __call__(self, state: MessagesState) -> Command[Literal["supervisor", "final_output_provider"]]:
