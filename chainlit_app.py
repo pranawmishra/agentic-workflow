@@ -21,16 +21,37 @@ async def on_chat_start():
     cl.user_session.set("config", {"configurable": {"thread_id": thread_id}})
     
     # Send welcome message
-    await cl.Message(
-        content="🤖 **Agent Workflow Ready!** \n\nI'm powered by a multi-agent system that can help with research, coding, validation, and more. What would you like me to help you with?",
-        author="Assistant"
-    ).send()
+    # await cl.Message(
+    #     content="🤖 **Agent Workflow Ready!** \n\nI'm powered by a multi-agent system that can help with research, coding, validation, and more. What would you like me to help you with?",
+    #     author="Assistant"
+    # ).send()
 
-@cl.step
-async def process_node_step(node_name: str, content: str):
-    """Process a single node in the workflow"""
-    await cl.sleep(0.1)
-    return f"Processed by {node_name}: {content}"               
+@cl.set_starters
+async def set_starters():
+    
+    return [
+        cl.Starter(
+            label="Morning routine ideation",
+            message="Can you help me create a personalized morning routine that would help increase my productivity throughout the day? Start by asking me about my current habits and what activities energize me in the morning.",
+            icon="/public/idea.svg",
+            ),
+
+        cl.Starter(
+            label="Explain superconductors",
+            message="Explain superconductors like I'm five years old.",
+            icon="/public/learn.svg",
+            ),
+        cl.Starter(
+            label="Python script for daily email reports",
+            message="Write a script to automate sending daily email reports in Python, and walk me through how I would set it up.",
+            icon="/public/terminal.svg",
+            ),
+        cl.Starter(
+            label="Text inviting friend to wedding",
+            message="Write a text asking a friend to be my plus-one at a wedding next month. I want to keep it super short and casual, and offer an out.",
+            icon="/public/write.svg",
+            )
+        ]
 
 @cl.on_message
 async def on_message(message: cl.Message):
